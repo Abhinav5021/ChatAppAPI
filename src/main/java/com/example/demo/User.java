@@ -1,6 +1,6 @@
 package com.example.demo;
 
-import java.time.LocalDateTime;
+
 
 import jakarta.persistence.*;
 
@@ -22,29 +22,7 @@ public class User {
 
     @Column(name = "PHONE_NUMBER")
     private String phoneNumber;
-    
-    @Column(name = "OTP")
-    private String otp;
 
-    @Column(name = "OTP_EXPIRY")
-    private LocalDateTime otpExpiry;
-
-
-    public String getOtp() {
-		return otp;
-	}
-
-	public void setOtp(String otp) {
-		this.otp = otp;
-	}
-
-	public LocalDateTime getOtpExpiry() {
-		return otpExpiry;
-	}
-
-	public void setOtpExpiry(LocalDateTime otpExpiry) {
-		this.otpExpiry = otpExpiry;
-	}
 
 	public User() {}
 
@@ -63,7 +41,7 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", userName=" + userName + ", password=" + password + ", phoneNumber=" + phoneNumber
-				+ ", otp=" + otp + ", otpExpiry=" + otpExpiry + "]";
+				+  "]";
 	}
 
 	
