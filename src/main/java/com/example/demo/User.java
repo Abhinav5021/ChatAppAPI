@@ -1,35 +1,72 @@
 package com.example.demo;
 
-public class user {
+import java.time.LocalDateTime;
 
-	String user_name;
-	String password;
-	String phone_number;
-	public String getUser_name() {
-		return user_name;
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "USERS")
+public class User {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+	@SequenceGenerator(name = "user_seq", sequenceName = "USER_SEQ", allocationSize = 1)
+	@Column(name = "ID")
+	private Long id;
+
+    @Column(name = "USER_NAME")
+    private String userName;
+
+    @Column(name = "PASSWORD")
+    private String password;
+
+    @Column(name = "PHONE_NUMBER")
+    private String phoneNumber;
+    
+    @Column(name = "OTP")
+    private String otp;
+
+    @Column(name = "OTP_EXPIRY")
+    private LocalDateTime otpExpiry;
+
+
+    public String getOtp() {
+		return otp;
 	}
-	public void setUser_name(String user_name) {
-		this.user_name = user_name;
+
+	public void setOtp(String otp) {
+		this.otp = otp;
 	}
-	public String getPassword() {
-		return password;
+
+	public LocalDateTime getOtpExpiry() {
+		return otpExpiry;
 	}
-	public void setPassword(String password) {
-		this.password = password;
+
+	public void setOtpExpiry(LocalDateTime otpExpiry) {
+		this.otpExpiry = otpExpiry;
 	}
-	public String getPhone_number() {
-		return phone_number;
-	}
-	public void setPhone_number(String phone_number) {
-		this.phone_number = phone_number;
-	}
+
+	public User() {}
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getUserName() { return userName; }
+    public void setUserName(String userName) { this.userName = userName; }
+
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+
+    public String getPhoneNumber() { return phoneNumber; }
+    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
+
 	@Override
 	public String toString() {
-		return "user [user_name=" + user_name + ", password=" + password + ", phone_number=" + phone_number + "]";
+		return "User [id=" + id + ", userName=" + userName + ", password=" + password + ", phoneNumber=" + phoneNumber
+				+ ", otp=" + otp + ", otpExpiry=" + otpExpiry + "]";
 	}
-	
-	
-    
 
 	
+    
+    
 }
