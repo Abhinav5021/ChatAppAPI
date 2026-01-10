@@ -1,12 +1,10 @@
 package com.example.demo;
-
-
-
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "USERS")
 public class User {
+	
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")

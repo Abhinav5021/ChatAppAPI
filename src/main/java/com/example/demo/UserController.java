@@ -26,11 +26,14 @@ public class UserController {
     public User login(@RequestBody Map<String,String> data) {
         return repo.findByUserNameAndPassword(data.get("userName"), data.get("password"));
     }
+    
     @PostMapping("/register")
     public User register(@RequestBody User user) {
         return repo.save(user);
     }
 
+    
+    
 
 
 
