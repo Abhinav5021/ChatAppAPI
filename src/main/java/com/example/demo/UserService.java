@@ -4,19 +4,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
 
     @Autowired
-    private chatRepository repo;
+    private UserRepository repo;  // ✅ make sure this is UserRepository, not userRepository
 
     @Transactional
     public User updateUser(User updatedUser) {
         // Step 1: Fetch existing user by username
-        User existingUser = repo.findByUserName(updatedUser.getUserName());
-        if (existingUser == null) {
+        Optional<User> optionalUser = repo.findByUserName(updatedUser.getUserName());
+
+        if (optionalUser.isEmpty()) {
             return null; // Let controller handle 404
         }
+
+        User existingUser = optionalUser.get();
 
         // Step 2: Copy only non-null fields
         if (updatedUser.getEmail() != null) {

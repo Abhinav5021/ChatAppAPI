@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class chatService {
+public class ChatService {
 	
 	@Autowired
-	chatRepository repo;
+	UserRepository repo;
 	
 	 public User saveUser(User user) {
 	        return repo.save(user);
