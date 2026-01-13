@@ -6,21 +6,17 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+
 @RestController
 @RequestMapping("/user")
-@CrossOrigin("*") // Allow frontend access
+// @CrossOrigin("*") <--- REMOVED (Handled by WebConfig)
 public class UserController {
 
     @Autowired
-    private UserService userService; // Rely on service, not repo directly
+    private UserRepository repo; // Use UserRepository directly for simplicity
 
-    @Autowired
-    private UserRepository repo;
-
-    // Unified Register/Add Endpoint
     @PostMapping("/register")
     public User register(@RequestBody User user) {
-        // You might want to check if username exists first!
         return repo.save(user);
     }
 
@@ -43,13 +39,39 @@ public class UserController {
         return repo.findByUserName(username).orElse(null);
     }
 
-    // Use the Service logic you wrote earlier
-    @PutMapping("/update")
-    public ResponseEntity<?> updateUser(@RequestBody User updatedUser) {
-        User user = userService.updateUser(updatedUser);
-        if (user == null) {
+    // ✅ FIXED: Matches JS url "/update/{id}"
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+        User existingUser = repo.findById(id).orElse(null);
+        if (existingUser == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
-        return ResponseEntity.ok(user);
+
+        // Only update fields if they are sent
+        if (updatedUser.getUserName() != null && !updatedUser.getUserName().isEmpty()) {
+            existingUser.setUserName(updatedUser.getUserName());
+        }
+        if (updatedUser.getEmail() != null && !updatedUser.getEmail().isEmpty()) {
+            existingUser.setEmail(updatedUser.getEmail());
+        }
+        if (updatedUser.getPhoneNumber() != null && !updatedUser.getPhoneNumber().isEmpty()) {
+            existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
+        }
+        if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
+            existingUser.setPassword(updatedUser.getPassword());
+        }
+
+        repo.save(existingUser);
+        return ResponseEntity.ok(existingUser);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        if (repo.existsById(id)) {
+            repo.deleteById(id);
+            return ResponseEntity.ok("User deleted");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
     }
 }

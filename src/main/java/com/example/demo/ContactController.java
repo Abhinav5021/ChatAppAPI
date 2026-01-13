@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/contacts")
-@CrossOrigin("*") 
+//@CrossOrigin("*") 
 public class ContactController {
 
     @Autowired

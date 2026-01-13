@@ -7,7 +7,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/messages")
-@CrossOrigin("*") // Allow frontend access
+//@CrossOrigin("*") // Allow frontend access
 public class MessageController {
 
     @Autowired
